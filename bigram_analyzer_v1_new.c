@@ -106,17 +106,7 @@ void InsertionSort() {
 		temp->next = hashTable[validBucketIdx[i+1]];
 	}
     free(validBucketIdx);
-
-    // // unique bigram 개수 세기
-    // BigramNode* temp2 = firstNode;
-    // for (int i=0; i<HASH_TABLE_SIZE-2; i++){
-    //     if (temp2 == NULL){
-    //         temp2 = hashTable[i+1];
-    //         continue;
-    //     }
-    //     if (temp2 != NULL)
-    //         break;
-    // }
+    printf("Inerstion sort 준비 완료\n");
 
 	// 2. 하나로 연결된 linked list를 insertion sort하기
 	BigramNode* sorted = firstNode;
@@ -163,38 +153,6 @@ void printBigrams(BigramNode *node) {
     }
 }
 
-void printBigramsToFile(BigramNode *node) {
-    /*
-    내림차순으로 정렬된 모든 node를 txt로 저장
-    */
-    FILE *file = fopen("output.txt", "w"); 
-
-    while (node != NULL) {
-        fprintf(file, "%s: ", node->bigram); 
-        fprintf(file, " (%d)\n", node->frequency);
-        node = node->next;
-    }
-    fclose(file);
-}
-
-void printNodeToFile(BigramNode *node) {
-    /*
-    디버깅 용도
-    */
-    FILE *file = fopen("output.txt", "a"); 
-    fprintf(file, "%s\n", node->bigram); 
-    fclose(file);
-}
-
-void countUniqueBigram(BigramNode* firstNode){
-    int cnt=0;
-    while (firstNode != NULL){
-        cnt += 1;
-        firstNode = firstNode->next;
-    }
-    printf("Num unique bigram: %d\n", cnt);
-}
-
 int main() {
     time_t start = time(NULL);
 
@@ -204,7 +162,7 @@ int main() {
     
     InitHashTable();
     
-    if (0 < (fd = open("shakespeare_part.txt", O_RDONLY))){
+    if (0 < (fd = open("shakespeare_part_part_part.txt", O_RDONLY))){
         while( 0 < (rd_size = read(fd, input, BUFFER_SIZE-1))){
             input[rd_size] = '\0';
             int len = strlen(input);
@@ -243,7 +201,7 @@ int main() {
     }
     
     InsertionSort();
-    // printBigrams(hashTable[0]);
+    printBigrams(hashTable[0]);
 
     time_t end = time(NULL);
     int time_taken = (int)(end-start);
@@ -253,7 +211,6 @@ int main() {
     min = min % 24;
     printf("Time: %dh %dm %ds\n", hour, min, sec);
     printf("\n");
-    // countUniqueBigram(hashTable[0]);
     
     return 0;
 }
